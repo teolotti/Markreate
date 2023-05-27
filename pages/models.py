@@ -8,7 +8,7 @@ from accounts.models import Seller
 class Service(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField()
+    image = models.ImageField(default='default.jpg', upload_to='service_pics')
     min_price = models.FloatField()
     seller = models.ForeignKey(Seller, default=None, on_delete=models.CASCADE)
 

@@ -1,10 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import Group
 from django.db.transaction import commit
 from django.shortcuts import render, redirect
 from accounts.forms import CreateCustomerForm, LoginCustomerForm, BecomeSellerForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+
+from accounts.models import Customer
 
 
 # Create your views here.
@@ -14,7 +17,7 @@ def loginPage(request):
         return redirect('home')
     else:
         if request.method == 'POST':
-            form = LoginCustomerForm(request, data=request.POST) # auth form
+            form = LoginCustomerForm(request, data=request.POST)  # auth form
             if form.is_valid():
                 user = form.get_user()
                 login(request, user)
@@ -40,6 +43,7 @@ def registerPage(request):
                 user.is_customer = True
                 if commit:
                     user.save()
+                Customer.objects.create(user=user)
                 messages.success(request, 'Account creato con successo!')
                 return redirect('login')
 
@@ -55,7 +59,7 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def becomeSeller(request):
-    if request.user.is_seller:
+    if request.user.groups.filter(name='Sellers Group').exists():
         return redirect('home')
     else:
         form = BecomeSellerForm()
@@ -65,7 +69,8 @@ def becomeSeller(request):
         if form.is_valid():
             seller = form.save(commit=False)
             seller.user = request.user
-            seller.user.is_seller = True
+            group = Group.objects.get(name='Sellers Group')
+            group.user_set.add(seller.user)
             if commit:
                 seller.save()
             messages.success(request, 'Sei diventato un venditore!')
