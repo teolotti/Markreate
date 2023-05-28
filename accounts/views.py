@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 from accounts.models import Customer
+from pages.models import Service
 
 
 # Create your views here.
@@ -65,7 +66,7 @@ def becomeSeller(request):
         form = BecomeSellerForm()
 
     if request.method == 'POST':
-        form = BecomeSellerForm(request.POST)
+        form = BecomeSellerForm(request.POST, request.FILES)
         if form.is_valid():
             seller = form.save(commit=False)
             seller.user = request.user
@@ -78,3 +79,18 @@ def becomeSeller(request):
 
     context = {'form': form}
     return render(request, 'accounts/becomeSeller.html', context)
+
+
+@login_required(login_url='login')
+def profile(request):
+    return render(request, 'accounts/profile.html')
+
+
+@login_required(login_url='login')
+def yourServices(request):
+    if request.user.groups.filter(name='Sellers Group').exists():
+        services = Service.objects.filter(seller=request.user.seller)
+        context = {'services': services}
+        return render(request, 'accounts/yourServices.html', context)
+    else:
+        return redirect('BecomeSeller')

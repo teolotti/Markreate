@@ -5,7 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Freelance</title>
+    {% block title %}
+        <title>Markreate</title>
+    {% endblock %}
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <style>
@@ -26,7 +29,7 @@
                     <a class="nav-link" href="{% url 'home' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contattaci</a>
+                    <a class="nav-link" href="{% url 'contact' %}">Contattaci</a>
                 </li>
                 {% if not request.user.is_authenticated %}
                     <li class="nav-item">
@@ -38,7 +41,7 @@
                 {% endif %}
                 {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                    <a class="nav-link" href="#">Profilo</a>
+                    <a class="nav-link" href="{% url 'profile' %}">Profilo</a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Logout</a>

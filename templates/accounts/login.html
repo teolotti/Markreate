@@ -1,4 +1,9 @@
-{% extends '../base.html' %}
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% block title %}
+    <title>Login - Markreate</title>
+{% endblock %}
 
 {% block content %}
     <div class="d-flex justify-content-center links">
@@ -9,11 +14,7 @@
             <div class="d-flex justify-content-center">
                 <form method="post" action="">
                     {% csrf_token %}
-                    {% for field in form %}
-                        {{ field.label_tag }}
-                        {{ field }}
-                        <br>
-                    {% endfor %}
+                    {{ form | crispy }}
                     <input type="submit" name="Login" style="margin-top: 10px">
                 </form>
             </div>

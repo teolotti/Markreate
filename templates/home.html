@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% load auth_extras %}
 
-{% block title %}Home - Markreate{% endblock %}
+{% block title %}
+    <title>Home - Markreate</title>
+{% endblock %}
 
 {% block content %}
     <section class="hero bg-light py-5">
@@ -37,12 +39,12 @@
                 {% for service in services %}
                     <div class="col-sm">
                         <div class="card" style="width: 18rem;">
-                            <img src={{ service.image.url }} class="card-img-top">
+                            <img src={{ service.image.url }} class="card-img-top" alt="">
                             <div class="card-body">
                                 <h5 class="card-title">{{ service.title }}</h5>
                                 <p class="card-text">{{ service.description }}</p>
-                                <p class="card-text">A partire da: {{ service.price }} €</p>
-                                <a href="#" class="btn btn-primary">Acquista</a>
+                                <p class="card-text">{{ service.price }} €</p>
+                                <a href="#" class="btn btn-primary">View</a>
                             </div>
                         </div>
                     </div>

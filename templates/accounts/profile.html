@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}
+{% load auth_extras %}
+
+{% block title %}
+    <title>Profile - Markreate</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2>Welcome, {{ user.username }}</h2>
+        <p>Email: {{ user.email }}</p>
+        <!-- Add more user information here as needed -->
+
+        <h3>Your Profile</h3>
+        <p>First Name: {{ user.first_name }}</p>
+        <p>Last Name: {{ user.last_name }}</p>
+        <a href="#" class="btn btn-primary" style="margin-bottom: 10px">Edit Profile</a>
+
+        <h3>Your Orders</h3>
+        {% for order in orders %}
+          <div class="order">
+            <h4>Order ID: {{ order.id }}</h4>
+            <p>Order Date: {{ order.date }}</p>
+            <a href="#" class="btn btn-primary" style="margin-bottom: 10px">Rate</a>
+          </div>
+        {% empty %}
+          <p>You haven't placed any orders yet.</p>
+        {% endfor %}
+
+        {% if request.user|has_group:"Sellers Group" %}
+            <h3>Your Services</h3>
+            <a href="{% url 'yourServices' %}" class="btn btn-primary" style="margin-bottom: 10px">View</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
