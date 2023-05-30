@@ -22,8 +22,8 @@
                                     <h5 class="card-title">{{ service.title }}</h5>
                                     <p class="card-text">{{ service.description }}</p>
                                     <p class="card-text">{{ service.price }} €</p>
-                                    <a href="#" class="btn btn-primary">Edit</a>
-                                    <a href="#" class="btn btn-danger">Delete</a>
+                                    <a href="{% url 'edit_service' service.id %}" class="btn btn-primary">Edit</a>
+                                    <a href="{% url 'delete_service' service.id %}" class="btn btn-danger">Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                 </ul>
 
                 <!-- Add new service button -->
-                <a href="#" class="btn btn-success" style="margin-top: 10px">Add New Service</a>
+                <a href='{% url 'create_service' %}' class="btn btn-success" style="margin: 10px">Add New Service</a>
             </div>
         </div>
     </div>

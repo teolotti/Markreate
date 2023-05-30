@@ -22,6 +22,12 @@ class CreateServiceForm(ModelForm):
         fields = ['title', 'description', 'image', 'price']
 
 
+class EditServiceForm(ModelForm):
+    class Meta:
+        model = Service
+        fields = ['title', 'description', 'image', 'price']
+
+
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=100)
     email = forms.EmailField()

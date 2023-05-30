@@ -18,7 +18,7 @@ class Customer(models.Model):
 
 class Seller(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    profile_pic = models.ImageField()
+    profile_pic = models.ImageField(upload_to='profile_pics')
     profession = models.CharField(max_length=200, default=None, blank=True, null=True)
     personal_info = models.TextField(default=None, blank=True, null=True)
 

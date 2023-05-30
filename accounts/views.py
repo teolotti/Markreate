@@ -87,10 +87,33 @@ def profile(request):
 
 
 @login_required(login_url='login')
-def yourServices(request):
+def edit_profile(request):
+    form1 = None
+    form2 = None
     if request.user.groups.filter(name='Sellers Group').exists():
-        services = Service.objects.filter(seller=request.user.seller)
-        context = {'services': services}
-        return render(request, 'accounts/yourServices.html', context)
+        seller = request.user.seller
+        if request.method == 'GET':
+            context = {'form1': CreateCustomerForm(instance=seller.user), 'form2': BecomeSellerForm(instance=seller),
+                       'seller': seller}
+            return render(request, 'accounts/edit_profile.html', context)
+        if request.method == 'POST':
+            form1 = BecomeSellerForm(request.POST, request.FILES, instance=seller)
+            form2 = CreateCustomerForm(request.POST, instance=seller.user)
+            if form1.is_valid() and form2.is_valid():
+                form1.save()
+                form2.save()
+                messages.success(request, 'Profilo aggiornato con successo!')
+                return redirect('profile')
     else:
-        return redirect('BecomeSeller')
+        customer = request.user.customer
+        if request.method == 'GET':
+            context = {'form1': CreateCustomerForm(instance=customer.user), 'form2': None, 'customer': customer}
+            return render(request, 'accounts/edit_profile.html', context)
+        if request.method == 'POST':
+            form = CreateCustomerForm(request.POST, instance=customer)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Profilo aggiornato con successo!')
+                return redirect('profile')
+    context = {'form1': form1, 'form2': form2}
+    return render(request, 'accounts/edit_profile.html', context)

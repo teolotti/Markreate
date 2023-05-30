@@ -1,0 +1,26 @@
+{% extends '../base.html' %}
+{% load crispy_forms_filters %}
+
+{% block title %}
+    <title>Edit Profile - Markreate</title>
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center links">
+        <div class="user-card" style="display: flex; justify-content: center; flex-direction: column; width: 450px">
+            <div class="d-flex justify-content-center links">
+                <h1>Edit</h1>
+            </div>
+            <div class="d-flex justify-content-center">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {{ form1 | crispy }}
+                    {{ form2 | crispy }}
+                    <input type="submit" name="Save" style="margin: 10px">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{ form.errors }}
+{% endblock %}

@@ -22,3 +22,7 @@ class BecomeSellerForm(ModelForm):
     class Meta:
         model = Seller
         fields = ['profile_pic', 'profession', 'personal_info']
+
+
+
+
