@@ -44,6 +44,8 @@
                                 <h5 class="card-title">{{ service.title }}</h5>
                                 <p class="card-text">{{ service.description }}</p>
                                 <p class="card-text">{{ service.price }} €</p>
+                                <img src="{{ service.seller.profile_pic.url }}" alt="" width="50px" height="auto">
+                                <p class="card-text">{{ service.seller.user.username }}</p>
                                 <a href="#" class="btn btn-primary">View</a>
                             </div>
                         </div>

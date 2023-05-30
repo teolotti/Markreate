@@ -11,12 +11,17 @@
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <h2>Welcome, {{ user.username }}</h2>
-        <p>Email: {{ user.email }}</p>
-        <!-- Add more user information here as needed -->
-
         <h3>Your Profile</h3>
         <p>First Name: {{ user.first_name }}</p>
         <p>Last Name: {{ user.last_name }}</p>
+        <p>Username: {{ user.username }}</p>
+        <p>Email: {{ user.email }}</p>
+        {% if request.user|has_group:"Sellers Group" %}
+            <p>Account Type: Seller</p>
+            <img src={{ user.seller.profile_pic.url }}  alt="" width="200px" height="auto">
+        {% else %}
+            <p>Account Type: Customer</p>
+        {% endif %}
         <a href="{% url 'editProfile' %}" class="btn btn-primary" style="margin-bottom: 10px">Edit Profile</a>
 
         <h3>Your Orders</h3>
