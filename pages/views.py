@@ -83,3 +83,10 @@ def delete_service(request, id):
     service.delete()
     messages.success(request, 'The post has been deleted successfully.')
     return redirect('yourServices')
+
+
+def service(request, id):
+    service = get_object_or_404(Service, id=id)
+    seller = service.seller.user
+    context = {'service': service, 'seller': seller}
+    return render(request, 'service.html', context)

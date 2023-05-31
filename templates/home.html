@@ -46,7 +46,7 @@
                                 <p class="card-text">{{ service.price }} €</p>
                                 <img src="{{ service.seller.profile_pic.url }}" alt="" width="50px" height="auto">
                                 <p class="card-text">{{ service.seller.user.username }}</p>
-                                <a href="#" class="btn btn-primary">View</a>
+                                <a href="{% url 'service' service.id %}" class="btn btn-primary">View</a>
                             </div>
                         </div>
                     </div>
