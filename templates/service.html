@@ -18,7 +18,7 @@
                 <img src="{{ service.image.url }}" alt="" width="100%" height="auto">
                 <p>Description: {{ service.description }}</p>
                 <p>Price: € {{ service.price }}</p>
-                <a href="#" class="btn btn-primary" style="margin: 10px">Buy</a>
+                <a href="{% url 'order' service.id %}" class="btn btn-primary" style="margin: 10px">Buy</a>
             </div>
         </div>
     </div>

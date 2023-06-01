@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 
-from pages.models import Order, Service
+from pages.models import Order, Service, PaymentCard
 
 
 class OrderForm(ModelForm):
@@ -32,3 +32,9 @@ class ContactForm(forms.Form):
     name = forms.CharField(max_length=100)
     email = forms.EmailField()
     message = forms.CharField(widget=forms.Textarea)
+
+
+class PaymentForm(ModelForm):
+    class Meta:
+        model = PaymentCard
+        fields = ['card_number', 'expiration_date', 'cvv']

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Your Orders - Markreate</title>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <h2>Welcome, {{ user.username }}</h2>
+            <p>Here are your orders:</p>
+            <div class="row">
+                {% for order in orders %}
+                    <div class="col-sm">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ order.service.title }}</h5>
+                                <p class="card-text">Date: {{ order.date_ordered }}</p>
+                                <p class="card-text">Completed: {{ order.completed}}</p>
+                                <p class="card-text">Credit Card number: {{ order.PaymentCard.card_number }}</p>
+                                {% if order.completed %}
+                                    <p class="card-text">Download your file:</p>
+                                    <a href="{% url 'download' order.id %}" class="btn btn-primary">Download</a>
+                                    <p class="card-text">Rate the service:</p>
+                                    <a href="#" class="btn btn-primary">Rate</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <li class="list-group-item">You haven't added any services yet.</li>
+                {% endfor %}
+            </div>
+            <a href='{% url 'create_service' %}' class="btn btn-success" style="margin: 10px">Add New Service</a>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,19 +1,25 @@
+import mimetypes
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
 from django.db.transaction import commit
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+
+from Markreate.settings import BASE_DIR, MEDIA_ROOT
 from accounts.forms import CreateCustomerForm, LoginCustomerForm, BecomeSellerForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 from accounts.models import Customer
-from pages.models import Service
+from pages.models import Service, Order
 
 
 # Create your views here.
 
 def loginPage(request):
+    form = LoginCustomerForm()
     if request.user.is_authenticated:
         return redirect('home')
     else:
@@ -24,11 +30,11 @@ def loginPage(request):
                 login(request, user)
                 messages.success(request, 'Login effettuato con successo!')
                 return redirect('home')
-        else:
-            messages.error(request, 'Username o password errati!')
-            form = LoginCustomerForm(request)
-        context = {'form': form}
-        return render(request, 'accounts/login.html', context)
+            else:
+                messages.error(request, 'Username o password errati!')
+                form = LoginCustomerForm(request)
+    context = {'form': form}
+    return render(request, 'accounts/login.html', context)
 
 
 def registerPage(request):
@@ -83,7 +89,9 @@ def becomeSeller(request):
 
 @login_required(login_url='login')
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    orders = Order.objects.filter(customer=request.user.customer)
+    context = {'orders': orders}
+    return render(request, 'accounts/profile.html', context)
 
 
 @login_required(login_url='login')
@@ -117,3 +125,15 @@ def edit_profile(request):
                 return redirect('profile')
     context = {'form1': form1, 'form2': form2}
     return render(request, 'accounts/edit_profile.html', context)
+
+
+def download(request, id): # FIXME: download file
+    order = get_object_or_404(Order, id=id)
+    filename = order.file.name
+    filepath = MEDIA_ROOT + '/' + filename
+    path = open(filepath, 'r')
+    mime_type, _ = mimetypes.guess_type(filepath)
+    response = HttpResponse(path, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    return response
+

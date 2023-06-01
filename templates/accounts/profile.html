@@ -25,19 +25,19 @@
         <a href="{% url 'editProfile' %}" class="btn btn-primary" style="margin-bottom: 10px">Edit Profile</a>
 
         <h3>Your Orders</h3>
-        {% for order in orders %}
+        {% if orders %}
           <div class="order">
-            <h4>Order ID: {{ order.id }}</h4>
-            <p>Order Date: {{ order.date }}</p>
-            <a href="#" class="btn btn-primary" style="margin-bottom: 10px">Rate</a>
+            <a href="{% url 'yourOrders' %}" class="btn btn-primary" style="margin-bottom: 10px">View</a>
           </div>
-        {% empty %}
+        {% else %}
           <p>You haven't placed any orders yet.</p>
-        {% endfor %}
+        {% endif %}
 
         {% if request.user|has_group:"Sellers Group" %}
             <h3>Your Services</h3>
             <a href="{% url 'yourServices' %}" class="btn btn-primary" style="margin-bottom: 10px">View</a>
+            <h3>Orders received</h3>
+            <a href="{% url 'orders_rec' %}" class="btn btn-primary" style="margin-bottom: 10px">View</a>
         {% endif %}
       </div>
     </div>
