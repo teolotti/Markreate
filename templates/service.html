@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load auth_extras %}
 
 {% block title %}
@@ -21,8 +22,16 @@
                 <a href="{% url 'order' service.id %}" class="btn btn-primary" style="margin: 10px">Buy</a>
                 <h5>Reviews:</h5>
                 {% for review in reviews %}
-                    <a href="#">From: {{ review.customer.user.username }}</a>
-                    <p>Rating: {{ review.rating }} </p>
+                    <p style="margin-bottom: -5px">By:</p>
+                    <a href="{% url 'view_profile' review.customer.user.id %}">{{ review.customer.user.username }}</a>
+                    <p style="margin-bottom: -5px">Rating: </p>
+                    {% for i in "12345" %}
+                        {% if i|to_int <= review.rating %}
+                        <img src="{% static 'icons/star.svg' %}" width="20px" height="auto">
+                        {% else %}
+                        <img src="{% static 'icons/not-star.svg' %}" alt="" width="20px" height="auto">
+                        {% endif %}
+                    {% endfor %}
                     <p>Comment: {{ review.text }}</p>
                 {% empty %}
                     <h6>No reviews yet</h6>

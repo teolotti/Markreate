@@ -9,9 +9,9 @@
         <div class="container">
             <h2>Welcome, {{ user.username }}</h2>
             <p>Here are your received orders:</p>
-            <div class="row">
+            <div class="row row-cols-1 row-cols-md-3">
                 {% for order in orders %}
-                    <div class="col-sm">
+                    <div class="col-sm" style="margin-bottom: 10px">
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title">{{ order.service.title }}</h5>

@@ -9,9 +9,9 @@
         <div class="container">
             <h2>Welcome, {{ user.username }}</h2>
             <p>Here are your orders:</p>
-            <div class="row">
+            <div class="row row-cols-1 row-cols-md-3">
                 {% for order in orders %}
-                    <div class="col-sm">
+                    <div class="col-sm" style="margin-bottom: 10px">
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title">{{ order.service.title }}</h5>
@@ -20,9 +20,9 @@
                                 <p class="card-text">Credit Card number: {{ order.PaymentCard.card_number }}</p>
                                 {% if order.completed %}
                                     <p class="card-text">Download your file:</p>
-                                    <a href="{% url 'download' order.id %}" class="btn btn-primary">Download</a>
+                                    <a href="{% url 'download' order.id %}" class="btn btn-primary" style="margin-bottom: 15px">Download</a>
                                     <p class="card-text">Rate the service:</p>
-                                    <a href="{% url 'rate' order.service.id %}" class="btn btn-primary">Rate</a>
+                                    <a href="{% url 'rate' order.service.id %}" class="btn btn-primary" style="margin-bottom: 15px">Rate</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -31,7 +31,6 @@
                     <li class="list-group-item">You haven't added any services yet.</li>
                 {% endfor %}
             </div>
-            <a href='{% url 'create_service' %}' class="btn btn-success" style="margin: 10px">Add New Service</a>
         </div>
     </section>
 

@@ -19,4 +19,4 @@ urlpatterns = [
     path('profile/ordersRec/', pages_views.orders_rec, name='orders_rec'),
     path('profile/ordersRec/complete/<int:id>/', pages_views.complete_order, name='complete_order'),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

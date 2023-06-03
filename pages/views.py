@@ -179,8 +179,15 @@ def rate(request, id):
     else:
         messages.warning(request, 'You cannot rate this service.')
         return redirect('yourOrders')
+    if request.method == 'GET':
+        if Review.objects.filter(customer=request.user.customer, service=service).exists():
+            context = {'form': RatingForm(instance=get_object_or_404(Review, customer=request.user.customer, service=service)), 'service': service}
+            return render(request, 'accounts/rate.html', context)
     if request.method == 'POST':
-        form = RatingForm(request.POST)
+        if Review.objects.filter(customer=request.user.customer, service=service).exists():
+            form = RatingForm(request.POST, instance=get_object_or_404(Review, customer=request.user.customer, service=service))
+        else:
+            form = RatingForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
             review.service = service

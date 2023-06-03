@@ -51,9 +51,9 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row row-cols-1 row-cols-md-3">
                 {% for service in services %}
-                    <div class="col-sm">
+                    <div class="col-sm" style="margin-bottom: 10px">
                         <div class="card" style="width: 18rem;">
                             <img src={{ service.image.url }} class="card-img-top" alt="">
                             <div class="card-body">
