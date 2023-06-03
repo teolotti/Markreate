@@ -2,11 +2,13 @@ from datetime import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import CreateServiceForm, EditServiceForm, ContactForm, PaymentForm, OrderForm, CompleteOrderForm
-from .models import Service, Order
+from .forms import CreateServiceForm, EditServiceForm, ContactForm, PaymentForm, OrderForm, CompleteOrderForm, \
+    RatingForm
+from .models import Service, Order, Review
 
 
 # Create your views here.
@@ -97,7 +99,8 @@ def delete_service(request, id):
 def service(request, id):
     service = get_object_or_404(Service, id=id)
     seller = service.seller.user
-    context = {'service': service, 'seller': seller}
+    reviews = Review.objects.filter(service=service)
+    context = {'service': service, 'seller': seller, 'reviews': reviews}
     return render(request, 'service.html', context)
 
 
@@ -152,3 +155,52 @@ def complete_order(request, id):
                 return redirect('orders_rec')
         context = {'form': form}
         return render(request, 'accounts/complete_order.html', context)
+
+
+def search(request):
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        services = Service.objects.filter(title__contains=searched)
+        context = {'searched': searched, 'services': services}
+        return render(request, 'search_home.html', context)
+
+
+def order_by_price(request):
+    ord_services = Service.objects.all().order_by('price')
+    context = {'services': ord_services}
+    return render(request, 'home.html', context)
+
+
+@login_required(login_url='login')
+def rate(request, id):
+    service = get_object_or_404(Service, id=id)
+    if Order.objects.filter(customer=request.user.customer, completed=True, service=service).exists():
+        form = RatingForm()
+    else:
+        messages.warning(request, 'You cannot rate this service.')
+        return redirect('yourOrders')
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.service = service
+            review.customer = request.user.customer
+            review.date = datetime.today()
+            review.save()
+            messages.success(request, 'Your rating has been submitted successfully.')
+            return redirect('yourOrders')
+    context = {'form': form, 'service': service}
+    return render(request, 'accounts/rate.html', context)
+
+
+def view_profile(request, id):
+    profile = get_object_or_404(User, id=id)
+    if request.user == profile:
+        return redirect('profile')
+    if profile.groups.filter(name='Sellers Group').exists():
+        services = Service.objects.filter(seller=profile.seller)
+        context = {'profile': profile, 'services': services}
+        return render(request, 'profile_view.html', context)
+    else:
+        context = {'profile': profile}
+        return render(request, 'profile_view.html', context)

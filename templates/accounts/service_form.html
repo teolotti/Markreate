@@ -16,7 +16,7 @@
                 <form enctype="multipart/form-data" method="post" action="">
                     {% csrf_token %}
                     {{ form | crispy }}
-                    <input type="submit" name="Save" style="margin: 10px">
+                    <input type="submit" name="Save" style="margin: 10px" class="btn btn-primary">
                 </form>
             </div>
         </div>

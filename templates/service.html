@@ -13,12 +13,20 @@
                 <div>
                     <p>Created by: {{ seller.username }}</p>
                     <img src="{{ service.seller.profile_pic.url }}" alt="" width="50px" height="auto">
-                    <a href="#" class="btn btn-primary" style="margin: 10px">View profile</a>
+                    <a href="{% url 'view_profile' seller.id %}" class="btn btn-primary" style="margin: 10px">View profile</a>
                 </div>
-                <img src="{{ service.image.url }}" alt="" width="100%" height="auto">
+                <img src="{{ service.image.url }}" alt="" width="100%" height="auto" style="margin: 10px">
                 <p>Description: {{ service.description }}</p>
                 <p>Price: € {{ service.price }}</p>
                 <a href="{% url 'order' service.id %}" class="btn btn-primary" style="margin: 10px">Buy</a>
+                <h5>Reviews:</h5>
+                {% for review in reviews %}
+                    <a href="#">From: {{ review.customer.user.username }}</a>
+                    <p>Rating: {{ review.rating }} </p>
+                    <p>Comment: {{ review.text }}</p>
+                {% empty %}
+                    <h6>No reviews yet</h6>
+                {% endfor %}
             </div>
         </div>
     </div>

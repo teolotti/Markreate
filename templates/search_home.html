@@ -40,7 +40,7 @@
                     <h1>Services</h1>
                 </div>
                 <div class="col-md-6" style="justify-content: right ">
-                    <form method="post" action="{% url 'search'%}">
+                    <form method="post" action="{% url 'search' %}">
                         {% csrf_token %}
                         <label>
                             <input type="search" name = "searched" placeholder="Search services">
@@ -48,25 +48,36 @@
                         <input type="submit" value="Search" class="btn btn-primary">
                         <a href="{% url 'order_by_price'%}" class="btn btn-primary">Order by price</a>
                     </form>
+
                 </div>
             </div>
-
             <div class="row">
-                {% for service in services %}
-                    <div class="col-sm">
-                        <div class="card" style="width: 18rem;">
-                            <img src={{ service.image.url }} class="card-img-top" alt="">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ service.title }}</h5>
-                                <p class="card-text">{{ service.description }}</p>
-                                <p class="card-text">{{ service.price }} €</p>
-                                <img src="{{ service.seller.profile_pic.url }}" alt="" width="50px" height="auto">
-                                <p class="card-text">{{ service.seller.user.username }}</p>
-                                <a href="{% url 'service' service.id %}" class="btn btn-primary">View</a>
+                {% if searched %}
+                    {% for service in services %}
+                        <div class="col-sm">
+                            <div class="card" style="width: 18rem;">
+                                <img src={{ service.image.url }} class="card-img-top" alt="">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ service.title }}</h5>
+                                    <p class="card-text">{{ service.description }}</p>
+                                    <p class="card-text">{{ service.price }} €</p>
+                                    <img src="{{ service.seller.profile_pic.url }}" alt="" width="50px" height="auto">
+                                    <p class="card-text">{{ service.seller.user.username }}</p>
+                                    <a href="{% url 'service' service.id %}" class="btn btn-primary">View</a>
+                                </div>
                             </div>
                         </div>
+                    {% empty %}
+                        <div class="col-sm">
+                            <h2>No services found</h2>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-sm">
+                        <h2>You forgot to search!</h2>
                     </div>
-                {% endfor %}
+                {% endif %}
+
             </div>
         </div>
     </section>

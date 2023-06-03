@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 
-from pages.models import Order, Service, PaymentCard
+from pages.models import Order, Service, PaymentCard, Review
 
 
 class OrderForm(ModelForm):
@@ -38,3 +38,9 @@ class PaymentForm(ModelForm):
     class Meta:
         model = PaymentCard
         fields = ['card_number', 'expiration_date', 'cvv']
+
+
+class RatingForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'text']

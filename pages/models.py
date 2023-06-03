@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from accounts.models import Seller
@@ -33,6 +34,20 @@ class Order(models.Model):
     completed = models.BooleanField(default=False)
     file = models.FileField(default=None, blank=True, null=True, upload_to='order_files')
     PaymentCard = models.ForeignKey(PaymentCard, default=None, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.customer.user.username + ' - ' + self.service.title
+
+
+class Review(models.Model):
+    customer = models.ForeignKey('accounts.Customer', default=None, on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, default=None, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+    rating = models.IntegerField(validators=[
+            MaxValueValidator(5),
+            MinValueValidator(0)
+        ])
 
     def __str__(self):
         return self.customer.user.username + ' - ' + self.service.title

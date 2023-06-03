@@ -11,6 +11,7 @@ urlpatterns = [
     path('logout/', views.logoutUser, name='logout'),
     path('becomeSeller/', views.becomeSeller, name='becomeSeller'),
     path('profile/', views.profile, name='profile'),
+    path('profile/<int:id>', pages_views.view_profile, name='view_profile'),
     path('profile/services/', include('pages.urls')),
     path('profile/edit/', views.edit_profile, name='editProfile'),
     path('profile/orders/', pages_views.yourOrders, name='yourOrders'),

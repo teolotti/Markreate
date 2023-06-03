@@ -22,7 +22,7 @@
                                     <p class="card-text">Download your file:</p>
                                     <a href="{% url 'download' order.id %}" class="btn btn-primary">Download</a>
                                     <p class="card-text">Rate the service:</p>
-                                    <a href="#" class="btn btn-primary">Rate</a>
+                                    <a href="{% url 'rate' order.service.id %}" class="btn btn-primary">Rate</a>
                                 {% endif %}
                             </div>
                         </div>

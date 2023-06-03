@@ -127,11 +127,11 @@ def edit_profile(request):
     return render(request, 'accounts/edit_profile.html', context)
 
 
-def download(request, id): # FIXME: download file
+def download(request, id):
     order = get_object_or_404(Order, id=id)
     filename = order.file.name
     filepath = MEDIA_ROOT + '/' + filename
-    path = open(filepath, 'r')
+    path = open(filepath, 'rb')
     mime_type, _ = mimetypes.guess_type(filepath)
     response = HttpResponse(path, content_type=mime_type)
     response['Content-Disposition'] = "attachment; filename=%s" % filename

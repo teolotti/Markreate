@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load auth_extras %}
+
+{% block title %}
+    <title>{{ profile.username }} - Markreate</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2>{{ profile.username }}</h2>
+                <p>First Name: {{ profile.first_name }}</p>
+                <p>Last Name: {{ profile.last_name }}</p>
+                <p>Username: {{ profile.username }}</p>
+                <p>Email: {{ profile.email }}</p>
+                {% if profile|has_group:"Sellers Group" %}
+                    <p>Account Type: Seller</p>
+                    <img src={{ profile.seller.profile_pic.url }}  alt="" width="200px" height="auto">
+                {% else %}
+                    <p>Account Type: Customer</p>
+                {% endif %}
+            </div>
+            {% if profile|has_group:"Sellers Group" %}
+                <section>
+                    <div class="container">
+                        <h3>Services</h3>
+                        <div class="row">
+                            {% for service in services %}
+                                <div class="col-sm">
+                                    <div class="card" style="width: 18rem;">
+                                        <img src={{ service.image.url }} class="card-img-top" alt="">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ service.title }}</h5>
+                                            <p class="card-text">{{ service.description }}</p>
+                                            <p class="card-text">{{ service.price }} €</p>
+                                            <img src="{{ service.seller.profile_pic.url }}" alt="" width="50px"
+                                                 height="auto">
+                                            <p class="card-text">{{ service.seller.user.username }}</p>
+                                            <a href="{% url 'service' service.id %}" class="btn btn-primary">View</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}
