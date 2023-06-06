@@ -15,12 +15,12 @@
                 <form method="post" action="">
                     {% csrf_token %}
                     {{ form | crispy }}
-                    <input type="submit" name="Login" style="margin-top: 10px" class="btn btn-primary">
+                    <input type="submit" name="Login" value="Login" style="margin-top: 10px" class="btn btn-primary">
                 </form>
             </div>
         </div>
     </div>
     <div class="d-flex justify-content-center links">
-        Non sei registrato? <a href="{% url 'register' %}" class="ml-2">Registrati</a>
+       Not a user yet?<a href="{% url 'register' %}" class="ml-2">Sign up</a>
     </div>
 {% endblock %}

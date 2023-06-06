@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_filters %}
 {% load auth_extras %}
 
@@ -46,15 +47,15 @@
                             <input type="search" name = "searched" placeholder="Search services">
                         </label>
                         <input type="submit" value="Search" class="btn btn-primary">
-                        <a href="{% url 'order_by_price'%}" class="btn btn-primary">Order by price</a>
+                        <a href="{% url 'order_by_price'%}" class="btn btn-primary"><img src="{% static 'icons/icons8-freccia-spessa-rivolta-verso-l&#39;alto-24.png' %}"></a>
                     </form>
                 </div>
             </div>
 
             <div class="row row-cols-1 row-cols-md-3">
                 {% for service in services %}
-                    <div class="col-sm" style="margin-bottom: 10px">
-                        <div class="card" style="width: 18rem;">
+                    <div class="col mb-4" style="margin-bottom: 10px">
+                        <div class="card" >
                             <img src={{ service.image.url }} class="card-img-top" alt="">
                             <div class="card-body">
                                 <h5 class="card-title">{{ service.title }}</h5>

@@ -9,13 +9,13 @@
     <div class="d-flex justify-content-center links">
         <div class="user-card" style="display: flex; justify-content: center; flex-direction: column; width: 450px">
             <div class="d-flex justify-content-center links">
-                <h1>Register</h1>
+                <h1>Sign Up</h1>
             </div>
             <div class="d-flex justify-content-center">
                 <form method="post" action="">
                     {% csrf_token %}
                     {{ form | crispy }}
-                    <input type="submit" name="Create User" style="margin-top: 10px" class="btn btn-primary">
+                    <input type="submit" name="Create User" value="Sign Up" style="margin-top: 10px" class="btn btn-primary">
                 </form>
             </div>
         </div>
@@ -24,6 +24,6 @@
     {{ form.errors }}
 
     <div class="d-flex justify-content-center links">
-        Hai già un account? <a href="{% url 'login' %}" class="ml-2">Login</a>
+       Already signed up? <a href="{% url 'login' %}" class="ml-2">Login</a>
     </div>
 {% endblock %}
