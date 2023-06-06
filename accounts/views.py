@@ -118,7 +118,7 @@ def edit_profile(request):
             context = {'form1': CreateCustomerForm(instance=customer.user), 'form2': None, 'customer': customer}
             return render(request, 'accounts/edit_profile.html', context)
         if request.method == 'POST':
-            form = CreateCustomerForm(request.POST, instance=customer)
+            form = CreateCustomerForm(request.POST, instance=customer.user)
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Profilo aggiornato con successo!')
