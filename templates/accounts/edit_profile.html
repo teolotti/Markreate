@@ -12,7 +12,7 @@
                 <h1>Edit</h1>
             </div>
             <div class="d-flex justify-content-center">
-                <form method="post" action="">
+                <form enctype="multipart/form-data" method="post" action="">
                     {% csrf_token %}
                     {{ form1 | crispy }}
                     {{ form2 | crispy }}
